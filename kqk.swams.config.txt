@@ -2,8 +2,8 @@ Building configuration...
 
 Current configuration : 9074 bytes
 !
-! Last configuration change at 02:12:47 UTC Mon Mar 9 2020 by kqkindonesia
-! NVRAM config last updated at 02:55:50 UTC Mon Mar 9 2020 by kqkindonesia
+! Last configuration change at 02:12:47 UTC Mon Mar 9 2020 by kqkrussia
+! NVRAM config last updated at 02:55:50 UTC Mon Mar 9 2020 by kqkrussia
 !
 version 15.0
 no service pad
@@ -18,7 +18,7 @@ boot-end-marker
 !
 enable secret 5 $1$BM8M$00yA9tU9KckM/BEet1r65/
 !
-username kqkindonesia password 7 15191B0749232520273D30311A06
+username kqkrussia password 7 15191B0749232520273D30311A06
 aaa new-model
 !
 !
