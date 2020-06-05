@@ -1,0 +1,469 @@
+Building configuration...
+
+Current configuration : 9074 bytes
+!
+! Last configuration change at 02:12:47 UTC Mon Mar 9 2020 by kqkindonesia
+! NVRAM config last updated at 02:55:50 UTC Mon Mar 9 2020 by kqkindonesia
+!
+version 15.0
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname swams
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$BM8M$00yA9tU9KckM/BEet1r65/
+!
+username kqkindonesia password 7 15191B0749232520273D30311A06
+aaa new-model
+!
+!
+aaa authentication login default local
+!
+!
+!
+!
+!
+!
+aaa session-id common
+switch 1 provision ws-c2960xr-48ts-i
+system mtu routing 1500
+!
+!
+no ip domain-lookup
+!
+!
+crypto pki trustpoint TP-self-signed-2661753088
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2661753088
+ revocation-check none
+ rsakeypair TP-self-signed-2661753088
+!
+!
+crypto pki certificate chain TP-self-signed-2661753088
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 32363631 37353330 3838301E 170D3139 31323038 32303434
+  33345A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D32 36363137
+  35333038 3830819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281
+  8100AA6C E09E6C66 DC428025 3A2A11BF B1E651CD 0D5047F3 714F8D42 12F2D1F1
+  A15950F9 46D74D5E 4CD07832 82E07476 A7376318 155ADFCC 7901511D 44F2DD39
+  5E15C8B5 38F3C469 AB0028E7 13484180 6741CD42 4584F8E1 2F0186C1 A6C298C5
+  2620607B 3A1165F0 A89D8CA6 9168D674 F5691866 C5B2642B 95D25326 43289169
+  B0C30203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603
+  551D2304 18301680 148F9F95 A538FEB6 A828143D 10F0D65D 90C8D4F5 E5301D06
+  03551D0E 04160414 8F9F95A5 38FEB6A8 28143D10 F0D65D90 C8D4F5E5 300D0609
+  2A864886 F70D0101 05050003 8181001E F8EF5460 6310B3F9 0BAF9D28 B5543E3B
+  E71581E9 75D76164 EE63B1DC 2B1387D5 21AB62DF 44C68655 A44F2CE0 6E76CC47
+  8B6699A7 30FDA29A 03FF2BAA 2E16F8C9 48F03D12 07A48605 0AE124F5 CF96ADD1
+  12DE04FE E314AE8B 2923351C B46A3343 9DE535E0 05C05EE3 6D333586 E05AB3D2
+  431C493F DEC0F152 54F0DF48 4C9B8F
+        quit
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+!
+!
+!
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface FastEthernet0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet1/0/1
+!
+interface GigabitEthernet1/0/2
+!
+interface GigabitEthernet1/0/3
+ description fwams - nic2:10.10.1.100 - dc - 20161110  - josefhpr
+ switchport access vlan 31
+ switchport mode access
+ no cdp enable
+!
+interface GigabitEthernet1/0/4
+ description LINK-TO-RTR-kqk - 10.10.1.1 - dc - 20161110 - josefhpr
+ switchport access vlan 31
+ switchport mode access
+ no cdp enable
+!
+interface GigabitEthernet1/0/5
+ description fwams - nic3:10.10.2.100 - dc - 20161110 - josefhpr
+ switchport access vlan 32
+ switchport mode access
+ no cdp enable
+!
+interface GigabitEthernet1/0/6
+ description LINK-TO-RTR-kqk - 10.10.2.1 - dc - 20161110 - josefhpr
+ switchport access vlan 32
+ switchport mode access
+ no cdp enable
+!
+interface GigabitEthernet1/0/7
+ description fwams - nic5:10.241.2.1 - dc - 20161110 - josefhpr
+ switchport access vlan 20
+ switchport mode access
+ no cdp enable
+!
+interface GigabitEthernet1/0/8
+ description .:to R-kqk-K4 :.
+ switchport access vlan 20
+ switchport mode access
+ no cdp enable
+!
+interface GigabitEthernet1/0/9
+ description fwams - nic4:10.241.1.1 - dc - 20161110 - josefhpr
+ switchport access vlan 10
+ switchport mode access
+!
+interface GigabitEthernet1/0/10
+ description ups - nic1:10.241.1.9 - 20161110 - josefhpr
+ switchport access vlan 10
+ switchport mode access
+ no cdp enable
+!
+interface GigabitEthernet1/0/11
+ description kvm redundant - nic1:10.241.1.8 - 20161110 - josefhpr
+ switchport access vlan 10
+ switchport mode access
+ no cdp enable
+!
+interface GigabitEthernet1/0/12
+ description kvm redundant - nic2:10.241.1.8 - 20161110 - josefhpr
+ switchport access vlan 10
+ switchport mode access
+ no cdp enable
+!
+interface GigabitEthernet1/0/13
+ description ismsc2 - nic1:10.241.1.29 - 20161110 - josefhpr
+ switchport access vlan 10
+ switchport mode access
+ no cdp enable
+!
+interface GigabitEthernet1/0/14
+ description ismsc2 - nic2:10.10.2.101 - 20161110 - josefhpr
+ switchport access vlan 32
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/15
+ description map - nic1:10.241.1.10 - 20161110 - josefhpr
+ switchport access vlan 10
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/16
+ description map - nic2:unassigned - 20161110 - josefhpr
+ switchport access vlan 10
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/17
+ description db - nic1:10.241.1.43 - 20161110 - josefhpr
+ switchport access vlan 10
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/18
+ description db - nic2:10.241.1.25 - 20161110 - josefhpr
+ switchport access vlan 10
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/19
+ description app - nic1:10.241.1.42 - 20161110 - josefhpr
+ switchport access vlan 10
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/20
+ description app - nic2:10.241.1.24 - 20161110 - josefhpr
+ switchport access vlan 10
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/21
+ description web - nic1:10.241.1.41 - 20161110 - josefhpr
+ switchport access vlan 10
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/22
+ description web - nic2:10.241.1.26 - 20161110 - josefhpr
+ switchport access vlan 10
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/23
+ description pve-01-ilo.kqk.ams - 10.241.1.51 - 20170605 - josefhpr
+ switchport access vlan 10
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/24
+ description pve-02-ilo.kqk.ams - 10.241.1.52 - 20170605 - josefhpr
+ switchport access vlan 10
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/25
+ description pve-03-ilo.kqk.ams - 10.241.1.53 - 20170605 - josefhpr
+ switchport access vlan 10
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/26
+ description map-ilo.kqk.ams - 10.241.1.54 - 20170605 - josefhpr
+ switchport access vlan 10
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/27
+ description tsel.kqk.ams - xxx.xxx.xxx.xxx - 20180511 - adisubekti
+ switchport access vlan 10
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/28
+ description gadis-tsel.kqk.ams - xxx.xxx.xxx.xxx - 20180511 - adisubekti
+ switchport access vlan 33
+ switchport mode access
+ no cdp enable
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/29
+!
+interface GigabitEthernet1/0/30
+!
+interface GigabitEthernet1/0/31
+ description adminws
+ switchport access vlan 10
+ switchport mode access
+ no cdp enable
+!
+interface GigabitEthernet1/0/32
+ switchport access vlan 10
+ switchport mode access
+!
+interface GigabitEthernet1/0/33
+!
+interface GigabitEthernet1/0/34
+!
+interface GigabitEthernet1/0/35
+!
+interface GigabitEthernet1/0/36
+!
+interface GigabitEthernet1/0/37
+ description AMS-USER-ACCESS
+ switchport access vlan 20
+!
+interface GigabitEthernet1/0/38
+ description AMS-USER-ACCESS
+ switchport access vlan 20
+!
+interface GigabitEthernet1/0/39
+ description AMS-USER-ACCESS
+ switchport access vlan 20
+!
+interface GigabitEthernet1/0/40
+ description AMS-USER-ACCESS
+ switchport access vlan 20
+!
+interface GigabitEthernet1/0/41
+ description AMS-USER-ACCESS
+ switchport access vlan 20
+!
+interface GigabitEthernet1/0/42
+ description AMS-USER-ACCESS
+ switchport access vlan 20
+!
+interface GigabitEthernet1/0/43
+ description AMS-USER-ACCESS
+ switchport access vlan 20
+!
+interface GigabitEthernet1/0/44
+ description AMS-USER-ACCESS
+ switchport access vlan 20
+!
+interface GigabitEthernet1/0/45
+ description AMS-USER-ACCESS
+ switchport access vlan 10
+!
+interface GigabitEthernet1/0/46
+ description AMS-USER-ACCESS
+ switchport access vlan 10
+!
+interface GigabitEthernet1/0/47
+ description AMS-USER-ACCESS
+ switchport access vlan 10
+!
+interface GigabitEthernet1/0/48
+ description AMS-USER-ACCESS
+ switchport access vlan 10
+!
+interface GigabitEthernet1/0/49
+!
+interface GigabitEthernet1/0/50
+!
+interface GigabitEthernet1/0/51
+!
+interface GigabitEthernet1/0/52
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan10
+ ip address 10.241.1.2 255.255.255.0
+!
+interface Vlan20
+ ip address 10.241.2.10 255.255.255.0
+!
+ip http server
+ip http secure-server
+!
+!
+!
+!
+!
+!
+!
+line con 0
+ logging synchronous
+line vty 0 4
+ password 7 10451912481E1C0F030A2F382D29
+line vty 5 15
+!
+!
+monitor session 1 source interface Gi1/0/6
+monitor session 1 destination interface Gi1/0/14 , Gi1/0/27
+end
+
+swams#sh vlan
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Gi1/0/1, Gi1/0/2, Gi1/0/29, Gi1/0/30, Gi1/0/33, Gi1/0/34, Gi1/0/35, Gi1/0/36, Gi1/0/49, Gi1/0/50, Gi1/0/51, Gi1/0/52
+10   dmz                              active    Gi1/0/9, Gi1/0/10, Gi1/0/11, Gi1/0/12, Gi1/0/13, Gi1/0/15, Gi1/0/16, Gi1/0/17, Gi1/0/18, Gi1/0/19, Gi1/0/20, Gi1/0/21, Gi1/0/22, Gi1/0/23, Gi1/0/24, Gi1/0/25, Gi1/0/26, Gi1/0/27, Gi1/0/31
+                                                Gi1/0/32
+20   intranet                         active    Gi1/0/7, Gi1/0/8, Gi1/0/37, Gi1/0/38, Gi1/0/39, Gi1/0/40, Gi1/0/41, Gi1/0/42, Gi1/0/43, Gi1/0/44, Gi1/0/45, Gi1/0/46, Gi1/0/47, Gi1/0/48
+31   indosat                          active    Gi1/0/3, Gi1/0/4
+32   xlaxiata                         active    Gi1/0/5, Gi1/0/6
+33   Tsel                             active    Gi1/0/28
+1002 fddi-default                     act/unsup 
+1003 token-ring-default               act/unsup 
+1004 fddinet-default                  act/unsup 
+1005 trnet-default                    act/unsup 
+
+VLAN Type  SAID       MTU   Parent RingNo BridgeNo Stp  BrdgMode Trans1 Trans2
+---- ----- ---------- ----- ------ ------ -------- ---- -------- ------ ------
+1    enet  100001     1500  -      -      -        -    -        0      0   
+10   enet  100010     1500  -      -      -        -    -        0      0   
+20   enet  100020     1500  -      -      -        -    -        0      0   
+31   enet  100031     1500  -      -      -        -    -        0      0   
+32   enet  100032     1500  -      -      -        -    -        0      0   
+33   enet  100033     1500  -      -      -        -    -        0      0   
+1002 fddi  101002     1500  -      -      -        -    -        0      0   
+1003 tr    101003     1500  -      -      -        -    -        0      0   
+1004 fdnet 101004     1500  -      -      -        ieee -        0      0   
+1005 trnet 101005     1500  -      -      -        ibm  -        0      0   
+
+Remote SPAN VLANs
+------------------------------------------------------------------------------
+
+
+Primary Secondary Type              Ports
+------- --------- ----------------- ------------------------------------------
+
+swams#sh ip int brief
+Interface              IP-Address      OK? Method Status                Protocol
+Vlan1                  unassigned      YES NVRAM  administratively down down    
+Vlan10                 10.241.1.2      YES NVRAM  up                    up      
+FastEthernet0          unassigned      YES NVRAM  administratively down down    
+GigabitEthernet1/0/1   unassigned      YES unset  down                  down    
+GigabitEthernet1/0/2   unassigned      YES unset  down                  down    
+GigabitEthernet1/0/3   unassigned      YES unset  up                    up      
+GigabitEthernet1/0/4   unassigned      YES unset  down                  down    
+GigabitEthernet1/0/5   unassigned      YES unset  up                    up      
+GigabitEthernet1/0/6   unassigned      YES unset  down                  down    
+GigabitEthernet1/0/7   unassigned      YES unset  up                    up      
+GigabitEthernet1/0/8   unassigned      YES unset  down                  down    
+GigabitEthernet1/0/9   unassigned      YES unset  up                    up      
+GigabitEthernet1/0/10  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/11  unassigned      YES unset  up                    up      
+GigabitEthernet1/0/12  unassigned      YES unset  up                    up      
+GigabitEthernet1/0/13  unassigned      YES unset  up                    up      
+GigabitEthernet1/0/14  unassigned      YES unset  up                    down    
+GigabitEthernet1/0/15  unassigned      YES unset  up                    up      
+GigabitEthernet1/0/16  unassigned      YES unset  up                    up      
+GigabitEthernet1/0/17  unassigned      YES unset  up                    up      
+GigabitEthernet1/0/18  unassigned      YES unset  up                    up      
+GigabitEthernet1/0/19  unassigned      YES unset  up                    up      
+GigabitEthernet1/0/20  unassigned      YES unset  up                    up      
+GigabitEthernet1/0/21  unassigned      YES unset  up                    up      
+GigabitEthernet1/0/22  unassigned      YES unset  up                    up      
+GigabitEthernet1/0/23  unassigned      YES unset  up                    up      
+GigabitEthernet1/0/24  unassigned      YES unset  up                    up      
+GigabitEthernet1/0/25  unassigned      YES unset  up                    up      
+GigabitEthernet1/0/26  unassigned      YES unset  up                    up      
+GigabitEthernet1/0/27  unassigned      YES unset  up                    up      
+GigabitEthernet1/0/28  unassigned      YES unset  up                    up      
+GigabitEthernet1/0/29  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/30  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/31  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/32  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/33  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/34  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/35  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/36  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/37  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/38  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/39  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/40  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/41  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/42  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/43  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/44  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/45  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/46  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/47  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/48  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/49  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/50  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/51  unassigned      YES unset  down                  down    
+GigabitEthernet1/0/52  unassigned      YES unset  down                  down    
