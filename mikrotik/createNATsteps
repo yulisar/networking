@@ -1,5 +1,5 @@
 
-
+ISP DHCP Server  ---- <e1>R1<e2>.1 ------192.168.88.0/24---- .2<e0>PC Client 
 
 IP-Firewall-NAT  Click Add button.
 Default action should be Accept.
