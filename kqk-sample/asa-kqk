@@ -1,0 +1,382 @@
+: Saved
+
+:
+: Serial Number: JAD22460181
+: Hardware:   ASA5516, 8192 MB RAM, CPU Atom C2000 series 2416 MHz, 1 CPU (8 cores)
+:
+ASA Version 9.8(2)
+!
+hostname fwams
+domain-name kqk.ams
+enable password $sha512$5000$nh0nZtHDQxJN8U84HaGldA==$AwtfRWJi6nwklzJf8R1ANg== pbkdf2
+names
+
+!
+interface GigabitEthernet1/1
+ nameif indosat
+ security-level 90
+ ip address 10.10.1.100 255.255.255.0
+!
+interface GigabitEthernet1/2
+ nameif xlaxiata
+ security-level 90
+ ip address 10.10.2.100 255.255.255.0
+!
+interface GigabitEthernet1/3
+ nameif dmz
+ security-level 50
+ ip address 10.241.1.1 255.255.255.0
+!
+interface GigabitEthernet1/4
+ nameif intranet
+ security-level 90
+ ip address 10.241.2.1 255.255.255.0
+!
+interface GigabitEthernet1/5
+ no nameif
+ no security-level
+ no ip address
+!
+interface GigabitEthernet1/6
+ description To TTC Buaran
+ nameif TSELGadis
+ security-level 90
+ ip address 192.168.254.2 255.255.255.252
+!
+interface GigabitEthernet1/7
+ nameif Remote_K4
+ security-level 90
+ ip address 192.168.111.129 255.255.255.0
+!
+interface GigabitEthernet1/8
+ no nameif
+ no security-level
+ no ip address
+!
+interface Management1/1
+ management-only
+ nameif management
+ security-level 100
+ ip address 10.32.15.111 255.255.255.0
+!
+ftp mode passive
+dns server-group DefaultDNS
+ domain-name kqk.ams
+same-security-traffic permit inter-interface
+object network dmz.web-ams
+ host 10.241.1.26
+ description Altamides web server
+object network dmz.app-ams
+ host 10.241.1.24
+ description Altamides app server
+object network dmz.ismsc2-ams-sec
+ host 10.241.1.30
+ description ismsc connect to XL Axiata
+object network dmz.map-ams
+ host 10.241.1.10
+ description Altamides map server
+object network dmz.ups-ams
+ host 10.241.1.9
+ description Altamides UPS
+object network dmz.swcore-ams
+ host 10.241.1.2
+ description Altamides Core Switch
+object network dmz.db-ams
+ host 10.241.1.25
+ description Altamides DB server
+object network dmz.pve-02-ams
+ host 10.241.1.42
+ description Altamides PVE-02 server
+object network dmz.pve-01-ams
+ host 10.241.1.41
+ description Altamides PVE-01 Server
+object network dmz.pve-03-ams
+ host 10.241.1.43
+ description Altamides PVE-03 Server
+object network dmz.kvm-ams
+ host 10.241.1.8
+ description Altamides KVM server
+object network indosat.ismsc1-ams
+ host 10.245.1.2
+ description iSMSC Connect to Indosat
+object network xlaxiata.stp-xl-SPSCBT03-primary
+ host 10.174.6.4
+ description XL SPSCBT03 Primary IP
+object network xlaxiata.stp-xl-SPSCBT03-secondary
+ host 10.174.6.20
+ description XL SPSCBT03 Secondary IP
+object network xlaxiata.stp-xl-SPSBTR03-secondary
+ host 10.174.6.84
+ description XL SPSBTR03 secondary IP
+object network xlaxiata.stp-xl-SPSBTR03-primary
+ host 10.174.6.68
+ description XL SPSBTR03 primary IP
+object network intranet.admin-ws
+ host 10.241.2.15
+ description Admin workstation IP Address
+object network dmz.ismscm-ams
+ host 10.241.1.28
+ description Altamides iSMSCM
+object service jboss-http
+ service tcp destination eq 8080
+object network outside.maps-google-com
+ fqdn v4 maps.google.com
+object network dmz.ismsc2-ams-pri
+ host 10.241.1.29
+object network xl-nat
+ host 10.10.2.101
+object network xlaxiata.ismsc2-nat1
+ host 10.10.2.102
+object network xlaxiata.ismsc2-nat2
+ host 10.10.2.101
+object network xlaxiata.kqk-rtr
+ subnet 192.168.103.0 255.255.255.0
+object network xlaxiata.kqk-xl-rtr
+ subnet 192.168.5.0 255.255.255.0
+object network tsel.gadis-api
+ host 10.2.114.172
+ description Telkomsel Gadis Interface
+object network xlaxiata.ismsc2-nat
+object-group network xlaxiata.grp-stp-xp-ip
+ description Group of XL stp IP
+ network-object object xlaxiata.stp-xl-SPSBTR03-primary
+ network-object object xlaxiata.stp-xl-SPSBTR03-secondary
+ network-object object xlaxiata.stp-xl-SPSCBT03-primary
+ network-object object xlaxiata.stp-xl-SPSCBT03-secondary
+object-group network DM_INLINE_NETWORK_1
+ network-object object dmz.db-ams
+ network-object object dmz.web-ams
+object-group network DM_INLINE_NETWORK_2
+ network-object object dmz.db-ams
+ network-object object dmz.web-ams
+object-group network DM_INLINE_NETWORK_3
+ network-object object indosat.ismsc1-ams
+ group-object xlaxiata.grp-stp-xp-ip
+object-group service DM_INLINE_TCP_1 tcp
+ port-object eq www
+ port-object eq https
+ port-object eq ssh
+object-group service DM_INLINE_TCP_2 tcp
+ port-object eq www
+ port-object eq https
+object-group service DM_INLINE_UDP_1 udp
+ port-object eq domain
+ port-object eq ntp
+ port-object eq time
+object-group service DM_INLINE_UDP_2 udp
+ port-object eq domain
+ port-object eq ntp
+object-group network DM_INLINE_NETWORK_4
+ network-object object dmz.db-ams
+ network-object object dmz.web-ams
+object-group service DM_INLINE_TCP_3 tcp
+ port-object eq www
+ port-object eq https
+object-group service DM_INLINE_TCP_4 tcp
+ port-object eq www
+ port-object eq https
+object-group service DM_INLINE_UDP_3 udp
+ port-object eq domain
+ port-object eq ntp
+object-group service DM_INLINE_SERVICE_1
+ service-object icmp
+ service-object icmp echo-reply
+ service-object icmp time-exceeded
+object-group service DM_INLINE_SERVICE_2
+ service-object icmp
+ service-object icmp echo-reply
+ service-object icmp time-exceeded
+object-group service DM_INLINE_SERVICE_3
+ service-object icmp
+ service-object icmp echo-reply
+ service-object icmp time-exceeded
+object-group service DM_INLINE_SERVICE_4
+ service-object icmp
+ service-object icmp echo-reply
+ service-object icmp time-exceeded
+object-group service DM_INLINE_SERVICE_5
+ service-object icmp
+ service-object icmp echo
+ service-object icmp time-exceeded
+object-group service DM_INLINE_SERVICE_6
+ service-object icmp
+ service-object icmp echo-reply
+ service-object icmp time-exceeded
+access-list dmz_access_in extended permit icmp object dmz.ismsc2-ams-sec any
+access-list dmz_access_in extended permit icmp object dmz.ismsc2-ams-pri any
+access-list dmz_access_in extended permit ip object dmz.ismsc2-ams-pri object-group xlaxiata.grp-stp-xp-ip
+access-list dmz_access_in extended permit ip object dmz.ismsc2-ams-sec object-group xlaxiata.grp-stp-xp-ip
+access-list dmz_access_in extended permit tcp object dmz.ismscm-ams object indosat.ismsc1-ams object-group DM_INLINE_TCP_1
+access-list dmz_access_in extended permit object-group DM_INLINE_SERVICE_5 object dmz.ismscm-ams object indosat.ismsc1-ams
+access-list dmz_access_in extended permit ip object dmz.ismscm-ams object tsel.gadis-api
+access-list dmz_access_in extended permit udp object-group DM_INLINE_NETWORK_4 any object-group DM_INLINE_UDP_3
+access-list dmz_access_in extended permit tcp object dmz.app-ams any object-group DM_INLINE_TCP_3
+access-list dmz_access_in extended permit icmp object dmz.ismsc2-ams-sec object-group xlaxiata.grp-stp-xp-ip
+access-list dmz_access_in extended permit ip host 10.241.1.38 object tsel.gadis-api
+access-list dmz_access_in extended permit ip host 10.241.1.38 object indosat.ismsc1-ams
+access-list intranet_access_in extended permit tcp 10.241.2.0 255.255.255.0 object dmz.web-ams eq www
+access-list intranet_access_in extended permit object jboss-http 10.241.2.0 255.255.255.0 object dmz.app-ams
+access-list intranet_access_in extended permit udp 10.241.2.0 255.255.255.0 object-group DM_INLINE_NETWORK_1 object-group DM_INLINE_UDP_1
+access-list intranet_access_in extended permit tcp 10.241.2.0 255.255.255.0 object outside.maps-google-com object-group DM_INLINE_TCP_4
+access-list intranet_access_in extended permit ip object intranet.admin-ws any
+access-list intranet_access_in extended permit tcp 10.241.2.0 255.255.255.0 host 10.241.1.36
+access-list intranet_access_in extended permit tcp 10.241.2.0 255.255.255.0 host 10.241.1.34
+access-list intranet_access_in extended permit udp 10.241.2.0 255.255.255.0 host 10.241.1.39
+access-list intranet_access_in extended permit tcp 172.18.118.0 255.255.255.0 host 10.241.1.36
+access-list intranet_access_in extended permit tcp 172.18.118.0 255.255.255.0 host 10.241.1.34
+access-list intranet_access_in extended permit udp 172.18.118.0 255.255.255.0 host 10.241.1.39
+access-list intranet_access_in extended permit tcp 172.18.118.0 255.255.255.0 host 10.241.1.10
+access-list indosat_access_in_1 extended permit object-group DM_INLINE_SERVICE_6 object indosat.ismsc1-ams any
+access-list indosat_access_in_1 extended permit tcp object indosat.ismsc1-ams object dmz.ismscm-ams object-group DM_INLINE_TCP_2
+access-list indosat_access_in_1 extended permit udp object indosat.ismsc1-ams object-group DM_INLINE_NETWORK_2 object-group DM_INLINE_UDP_2
+access-list indosat_access_in_1 extended permit ip object indosat.ismsc1-ams host 10.241.1.38
+access-list indosat_access_in_1 extended permit icmp object indosat.ismsc1-ams host 10.241.1.38
+access-list indosat_access_in_1 extended permit ip object indosat.ismsc1-ams host 10.241.1.39
+access-list xlaxiata_access_in extended permit object-group DM_INLINE_SERVICE_1 any object dmz.ismsc2-ams-pri
+access-list xlaxiata_access_in extended permit object-group DM_INLINE_SERVICE_2 any object dmz.ismsc2-ams-sec
+access-list xlaxiata_access_in extended permit ip object-group xlaxiata.grp-stp-xp-ip object dmz.ismsc2-ams-pri
+access-list xlaxiata_access_in extended permit ip object-group xlaxiata.grp-stp-xp-ip object dmz.ismsc2-ams-sec
+access-list TSELGadis_access_in extended permit object-group DM_INLINE_SERVICE_3 any object dmz.ismscm-ams
+access-list Remote_K4_access_in extended permit object-group DM_INLINE_SERVICE_4 any 10.241.1.0 255.255.255.0
+access-list Remote_K4_access_in extended permit ip any 10.241.1.0 255.255.255.0
+pager lines 24
+logging enable
+logging buffer-size 8192
+logging buffered warnings
+logging asdm warnings
+mtu indosat 1500
+mtu xlaxiata 1500
+mtu dmz 1500
+mtu intranet 1500
+mtu management 1500
+mtu TSELGadis 1500
+mtu Remote_K4 1500
+no failover
+no monitor-interface service-module
+icmp unreachable rate-limit 1 burst-size 1
+asdm image disk0:/asdm-782.bin
+no asdm history enable
+arp timeout 14400
+no arp permit-nonconnected
+arp rate-limit 16384
+nat (dmz,TSELGadis) source static any interface
+nat (dmz,indosat) source static any interface destination static indosat.ismsc1-ams indosat.ismsc1-ams inactive
+!
+object network dmz.ismsc2-ams-sec
+ nat (dmz,xlaxiata) static xlaxiata.ismsc2-nat2
+access-group indosat_access_in_1 in interface indosat
+access-group xlaxiata_access_in in interface xlaxiata
+access-group dmz_access_in in interface dmz
+access-group intranet_access_in in interface intranet
+access-group TSELGadis_access_in in interface TSELGadis
+access-group Remote_K4_access_in in interface Remote_K4
+route TSELGadis 10.2.114.172 255.255.255.255 192.168.254.1 1
+route management 10.32.5.0 255.255.255.0 10.32.15.254 1
+route xlaxiata 10.174.6.0 255.255.255.0 10.10.2.1 1
+route indosat 10.245.1.0 255.255.255.0 10.10.1.1 1
+route intranet 172.18.118.0 255.255.255.0 10.241.2.2 1
+route xlaxiata 192.168.5.0 255.255.255.0 10.10.2.1 1
+route xlaxiata 192.168.103.0 255.255.255.0 10.10.2.1 1
+timeout xlate 3:00:00
+timeout pat-xlate 0:00:30
+timeout conn 1:00:00 half-closed 0:10:00 udp 0:02:00 sctp 0:02:00 icmp 0:00:02
+timeout sunrpc 0:10:00 h323 0:05:00 h225 1:00:00 mgcp 0:05:00 mgcp-pat 0:05:00
+timeout sip 0:30:00 sip_media 0:02:00 sip-invite 0:03:00 sip-disconnect 0:02:00
+timeout sip-provisional-media 0:02:00 uauth 0:05:00 absolute
+timeout tcp-proxy-reassembly 0:01:00
+timeout floating-conn 0:00:00
+timeout conn-holddown 0:00:15
+timeout igp stale-route 0:01:10
+user-identity default-domain LOCAL
+aaa authentication ssh console LOCAL
+aaa authentication login-history
+http server enable
+http 192.168.1.0 255.255.255.0 management
+http 10.32.5.15 255.255.255.255 management
+http 10.32.15.190 255.255.255.255 management
+http 10.241.2.15 255.255.255.255 intranet
+http 10.241.1.15 255.255.255.255 dmz
+no snmp-server location
+no snmp-server contact
+service sw-reset-button
+crypto ipsec security-association pmtu-aging infinite
+crypto ca trustpool policy
+telnet timeout 5
+no ssh stricthostkeycheck
+ssh 10.241.1.15 255.255.255.255 dmz
+ssh 10.241.1.41 255.255.255.255 dmz
+ssh 10.241.2.15 255.255.255.255 intranet
+ssh 10.32.5.15 255.255.255.255 management
+ssh 10.32.15.190 255.255.255.255 management
+ssh timeout 5
+ssh key-exchange group dh-group1-sha1
+console timeout 0
+dhcpd address 10.241.2.2-10.241.2.14 intranet
+dhcpd dns 10.241.1.25 10.241.1.26 interface intranet
+dhcpd domain kqk.ams interface intranet
+dhcpd enable intranet
+!
+threat-detection basic-threat
+threat-detection statistics access-list
+no threat-detection statistics tcp-intercept
+ssl cipher default low
+ssl cipher tlsv1 low
+ssl cipher tlsv1.1 low
+ssl cipher tlsv1.2 low
+ssl cipher dtlsv1 low
+dynamic-access-policy-record DfltAccessPolicy
+username kqkrussia password CevwEm4cQpORONdc encrypted privilege 15
+username compnet password $sha512$5000$o0KwXTklpizFDHNkGalq3Q==$aX1lKBeYP07ldYTZiB7/iw== pbkdf2 privilege 15
+!
+class-map inspection_default
+ match default-inspection-traffic
+!
+!
+policy-map type inspect dns preset_dns_map
+ parameters
+  message-length maximum client auto
+  message-length maximum 512
+  no tcp-inspection
+policy-map type inspect dns migrated_dns_map_1
+ parameters
+  message-length maximum client auto
+  message-length maximum 512
+  no tcp-inspection
+policy-map global_policy
+ class inspection_default
+  inspect dns migrated_dns_map_1
+  inspect ftp
+  inspect h323 h225
+  inspect h323 ras
+  inspect ip-options
+  inspect netbios
+  inspect rsh
+  inspect rtsp
+  inspect skinny
+  inspect esmtp
+  inspect sqlnet
+  inspect sunrpc
+  inspect tftp
+  inspect sip
+  inspect xdmcp
+  inspect icmp
+policy-map type inspect dns migrated_dns_map_2
+ parameters
+  message-length maximum client auto
+  message-length maximum 512
+  no tcp-inspection
+!
+service-policy global_policy global
+prompt hostname context
+no call-home reporting anonymous
+call-home
+ profile CiscoTAC-1
+  no active
+  destination address http https://tools.cisco.com/its/service/oddce/services/DDCEService
+  destination address email callhome@cisco.com
+  destination transport-method http
+  subscribe-to-alert-group diagnostic
+  subscribe-to-alert-group environment
+  subscribe-to-alert-group inventory periodic monthly
+  subscribe-to-alert-group configuration periodic monthly
+  
